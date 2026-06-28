@@ -1,0 +1,35 @@
+/* ===== DASHBOARD ===== */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 14px; margin-bottom: 32px;
+}
+.stat-card {
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 20px 18px;
+  display: flex; flex-direction: column; gap: 6px;
+  transition: border-color var(--transition);
+}
+.stat-card:hover { border-color: var(--border2); }
+.stat-label { font-size: 11px; font-weight: 500; color: var(--text3); text-transform: uppercase; letter-spacing: 0.06em; }
+.stat-value { font-size: 28px; font-weight: 600; font-family: var(--mono); color: var(--text); }
+
+.chart-section { margin-bottom: 32px; }
+.chart-section h2 { margin-bottom: 14px; }
+#activity-chart { display: block; width: 100%; max-width: 100%; }
+
+.recent-section h2 { margin-bottom: 14px; }
+.recent-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+.recent-list li {
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 10px 14px;
+  display: flex; align-items: center; gap: 10px;
+  font-size: 13px;
+}
+.recent-list li .task-tag {
+  font-size: 10px; padding: 2px 8px; border-radius: 20px;
+  font-weight: 500; margin-left: auto; flex-shrink: 0;
+}
+.tag-todo { background: rgba(59,130,246,0.15); color: var(--blue); }
+.tag-inprogress { background: rgba(245,158,11,0.15); color: var(--amber); }
+.tag-done { background: rgba(62,207,142,0.15); color: var(--green); }

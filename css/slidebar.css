@@ -1,0 +1,65 @@
+/* ===== SIDEBAR ===== */
+.sidebar {
+  width: var(--sidebar-w);
+  background: var(--bg2);
+  border-right: 1px solid var(--border);
+  display: flex; flex-direction: column;
+  flex-shrink: 0;
+  height: 100vh;
+  position: sticky; top: 0;
+}
+
+.sidebar-logo {
+  display: flex; align-items: center; gap: 10px;
+  padding: 22px 18px 18px;
+  border-bottom: 1px solid var(--border);
+}
+.logo-mark {
+  width: 30px; height: 30px; border-radius: 8px;
+  background: var(--accent); color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 14px; flex-shrink: 0;
+}
+.logo-text { font-weight: 600; font-size: 14px; }
+
+.sidebar-nav { flex: 1; padding: 12px 10px; display: flex; flex-direction: column; gap: 2px; }
+
+.nav-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 12px; border-radius: var(--radius-sm);
+  text-decoration: none; color: var(--text2);
+  font-size: 13px; font-weight: 500;
+  transition: background var(--transition), color var(--transition);
+}
+.nav-item:hover { background: var(--bg3); color: var(--text); }
+.nav-item.active { background: var(--accent-bg); color: var(--accent2); }
+.nav-icon { font-size: 15px; width: 18px; text-align: center; }
+
+.sidebar-bottom {
+  padding: 12px 10px;
+  border-top: 1px solid var(--border);
+  display: flex; flex-direction: column; gap: 6px;
+}
+.theme-toggle, .search-trigger {
+  background: transparent; border: 1px solid var(--border);
+  color: var(--text2); border-radius: var(--radius-sm);
+  padding: 8px 12px; font-size: 12px; cursor: pointer; text-align: left;
+  display: flex; align-items: center; gap: 6px;
+  transition: background var(--transition);
+  font-family: var(--font);
+}
+.theme-toggle:hover, .search-trigger:hover { background: var(--bg3); color: var(--text); }
+
+@media (max-width: 640px) {
+  .sidebar {
+    width: 100%; height: auto; flex-direction: row;
+    align-items: center; padding: 0 8px;
+    border-right: none; border-bottom: 1px solid var(--border);
+    position: sticky; top: 0; z-index: 50;
+  }
+  .sidebar-logo { border-bottom: none; padding: 12px 10px; }
+  .logo-text { display: none; }
+  .sidebar-nav { flex-direction: row; padding: 8px 0; gap: 2px; flex: 1; overflow-x: auto; }
+  .nav-item { padding: 7px 10px; font-size: 12px; white-space: nowrap; }
+  .sidebar-bottom { flex-direction: row; border-top: none; padding: 8px 4px; }
+}
