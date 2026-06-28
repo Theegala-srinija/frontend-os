@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Frontend OS</title>
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/sidebar.css" />
+  <link rel="stylesheet" href="css/dashboard.css" />
+  <link rel="stylesheet" href="css/kanban.css" />
+  <link rel="stylesheet" href="css/editor.css" />
+  <link rel="stylesheet" href="css/gallery.css" />
+  <link rel="stylesheet" href="css/game.css" />
+  <link rel="stylesheet" href="css/search.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+</head>
+<body class="theme-dark">
+
+  <!-- Search overlay -->
+  <div id="search-overlay" class="search-overlay hidden">
+    <div class="search-box">
+      <span class="search-icon">⌕</span>
+      <input type="text" id="search-input" placeholder="Search tasks, notes, images…" autocomplete="off" />
+      <kbd class="search-esc">ESC</kbd>
+    </div>
+    <div id="search-results" class="search-results"></div>
+  </div>
+
+  <div class="os-shell">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-logo">
+        <span class="logo-mark">F</span>
+        <span class="logo-text">Frontend OS</span>
+      </div>
+
+      <nav class="sidebar-nav">
+        <a href="#dashboard" class="nav-item active" data-view="dashboard">
+          <span class="nav-icon">▦</span> Dashboard
+        </a>
+        <a href="#kanban" class="nav-item" data-view="kanban">
+          <span class="nav-icon">⊞</span> Kanban
+        </a>
+        <a href="#editor" class="nav-item" data-view="editor">
+          <span class="nav-icon">✎</span> Editor
+        </a>
+        <a href="#gallery" class="nav-item" data-view="gallery">
+          <span class="nav-icon">⊡</span> Gallery
+        </a>
+        <a href="#game" class="nav-item" data-view="game">
+          <span class="nav-icon">▶</span> Game
+        </a>
+      </nav>
+
+      <div class="sidebar-bottom">
+        <button class="theme-toggle" id="theme-toggle" title="Toggle theme">
+          <span id="theme-icon">☀</span>
+        </button>
+        <button class="search-trigger" id="search-trigger" title="Search (Ctrl+K)">
+          ⌕ Search
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main content -->
+    <main class="main-content">
+
+      <!-- DASHBOARD VIEW -->
+      <section id="view-dashboard" class="view active">
+        <header class="view-header">
+          <h1>Dashboard</h1>
+          <span class="live-badge">● Live</span>
+        </header>
+        <div class="stats-grid">
+          <div class="stat-card">
+            <span class="stat-label">Tasks done</span>
+            <span class="stat-value" id="stat-tasks">0</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-label">Notes saved</span>
+            <span class="stat-value" id="stat-notes">0</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-label">Images</span>
+            <span class="stat-value" id="stat-images">12</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-label">High score</span>
+            <span class="stat-value" id="stat-score">0</span>
+          </div>
+        </div>
+        <div class="chart-section">
+          <h2>Weekly activity</h2>
+          <canvas id="activity-chart" width="700" height="200"></canvas>
+        </div>
+        <div class="recent-section">
+          <h2>Recent tasks</h2>
+          <ul id="recent-tasks" class="recent-list"></ul>
+        </div>
+      </section>
+
+      <!-- KANBAN VIEW -->
+      <section id="view-kanban" class="view hidden">
+        <header class="view-header">
+          <h1>Kanban</h1>
+          <button class="btn-primary" id="add-task-btn">+ Add task</button>
+        </header>
+        <div class="kanban-board" id="kanban-board">
+          <div class="kanban-col" data-col="todo">
+            <div class="col-header"><span class="col-dot dot-todo"></span>To do <span class="col-count" id="count-todo">0</span></div>
+            <div class="col-cards" id="cards-todo" data-col="todo"></div>
+          </div>
+          <div class="kanban-col" data-col="inprogress">
+            <div class="col-header"><span class="col-dot dot-inprogress"></span>In progress <span class="col-count" id="count-inprogress">0</span></div>
+            <div class="col-cards" id="cards-inprogress" data-col="inprogress"></div>
+          </div>
+          <div class="kanban-col" data-col="done">
+            <div class="col-header"><span class="col-dot dot-done"></span>Done <span class="col-count" id="count-done">0</span></div>
+            <div class="col-cards" id="cards-done" data-col="done"></div>
+          </div>
+        </div>
+        <!-- Add task modal -->
+        <div id="task-modal" class="modal hidden">
+          <div class="modal-box">
+            <h3>New task</h3>
+            <input type="text" id="task-title" placeholder="Task title…" />
+            <textarea id="task-desc" placeholder="Description (optional)…" rows="3"></textarea>
+            <select id="task-col">
+              <option value="todo">To do</option>
+              <option value="inprogress">In progress</option>
+              <option value="done">Done</option>
+            </select>
+            <div class="modal-actions">
+              <button class="btn-secondary" id="cancel-task">Cancel</button>
+              <button class="btn-primary" id="save-task">Add task</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- EDITOR VIEW -->
+      <section id="view-editor" class="view hidden">
+        <header class="view-header">
+          <h1>Editor</h1>
+          <div class="editor-toolbar">
+            <button class="tool-btn" data-cmd="bold" title="Bold"><b>B</b></button>
+            <button class="tool-btn" data-cmd="italic" title="Italic"><i>I</i></button>
+            <button class="tool-btn" data-cmd="underline" title="Underline"><u>U</u></button>
+            <span class="tool-sep"></span>
+            <button class="tool-btn" data-cmd="insertUnorderedList" title="List">≡</button>
+            <button class="tool-btn" data-cmd="formatBlock:h2" title="Heading">H</button>
+            <span class="tool-sep"></span>
+            <button class="btn-primary" id="save-note">Save note</button>
+          </div>
+        </header>
+        <div class="editor-body">
+          <input type="text" id="note-title" class="note-title-input" placeholder="Note title…" />
+          <div id="editor-content" class="editor-content" contenteditable="true" spellcheck="true">
+            <p>Start typing your note here…</p>
+          </div>
+        </div>
+        <div class="notes-list-section">
+          <h2>Saved notes</h2>
+          <ul id="notes-list" class="notes-list"></ul>
+        </div>
+      </section>
+
+      <!-- GALLERY VIEW -->
+      <section id="view-gallery" class="view hidden">
+        <header class="view-header">
+          <h1>Gallery</h1>
+          <input type="text" id="gallery-search" class="inline-search" placeholder="Filter images…" />
+        </header>
+        <div class="gallery-grid" id="gallery-grid"></div>
+        <div id="lightbox" class="lightbox hidden">
+          <div class="lightbox-backdrop"></div>
+          <div class="lightbox-content">
+            <img id="lightbox-img" src="" alt="" />
+            <p id="lightbox-caption"></p>
+            <button class="lightbox-close">✕</button>
+          </div>
+        </div>
+        <div id="gallery-sentinel" class="sentinel"></div>
+      </section>
+
+      <!-- GAME VIEW -->
+      <section id="view-game" class="view hidden">
+        <header class="view-header">
+          <h1>Snake</h1>
+          <div class="game-hud">
+            <span>Score: <b id="game-score">0</b></span>
+            <span>Best: <b id="game-best">0</b></span>
+          </div>
+        </header>
+        <div class="game-area">
+          <canvas id="game-canvas" width="400" height="400"></canvas>
+          <div id="game-overlay" class="game-overlay">
+            <p id="game-msg">Press Space or tap to start</p>
+            <button class="btn-primary" id="game-start-btn">Start game</button>
+          </div>
+        </div>
+        <p class="game-hint">Arrow keys or WASD to move · Space to pause</p>
+      </section>
+
+    </main>
+  </div>
+
+  <script src="js/state.js"></script>
+  <script src="js/router.js"></script>
+  <script src="js/dashboard.js"></script>
+  <script src="js/kanban.js"></script>
+  <script src="js/editor.js"></script>
+  <script src="js/gallery.js"></script>
+  <script src="js/game.js"></script>
+  <script src="js/search.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
