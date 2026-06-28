@@ -1,0 +1,55 @@
+/* ===== GALLERY ===== */
+.inline-search {
+  background: var(--bg3); border: 1px solid var(--border);
+  color: var(--text); border-radius: var(--radius-sm);
+  padding: 8px 14px; font-size: 13px; outline: none;
+  font-family: var(--font); width: 200px;
+  transition: border-color var(--transition);
+}
+.inline-search:focus { border-color: var(--accent); }
+
+.gallery-grid {
+  columns: 3; column-gap: 12px;
+}
+.gallery-item {
+  break-inside: avoid; margin-bottom: 12px;
+  border-radius: var(--radius-sm); overflow: hidden;
+  cursor: pointer; position: relative;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+}
+.gallery-item img {
+  width: 100%; display: block;
+  transition: transform 0.3s ease;
+}
+.gallery-item:hover img { transform: scale(1.03); }
+.gallery-caption {
+  padding: 8px 10px; font-size: 11px;
+  color: var(--text2); background: var(--bg2);
+}
+.gallery-skeleton {
+  background: linear-gradient(90deg, var(--bg2) 25%, var(--bg3) 50%, var(--bg2) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+  border-radius: var(--radius-sm); margin-bottom: 12px;
+}
+@keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+.sentinel { height: 1px; }
+
+/* Lightbox */
+.lightbox { position: fixed; inset: 0; z-index: 200; display: flex; align-items: center; justify-content: center; }
+.lightbox.hidden { display: none; }
+.lightbox-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,0.85); }
+.lightbox-content { position: relative; z-index: 1; text-align: center; max-width: 90vw; }
+.lightbox-content img { max-width: 85vw; max-height: 80vh; border-radius: var(--radius); display: block; }
+.lightbox-content p { color: #ccc; margin-top: 10px; font-size: 13px; }
+.lightbox-close {
+  position: absolute; top: -12px; right: -12px;
+  background: var(--bg2); border: 1px solid var(--border2);
+  color: var(--text); width: 32px; height: 32px; border-radius: 50%;
+  cursor: pointer; font-size: 14px; display: flex; align-items: center; justify-content: center;
+}
+
+@media (max-width: 640px) {
+  .gallery-grid { columns: 2; }
+}
